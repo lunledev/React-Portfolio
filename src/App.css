@@ -1,1 +1,10 @@
 
+.nav-link active{
+
+    color:forestgreen; /*if link select*/
+}
+
+.nav-link{
+
+    color:gold; /*if link not selected*/
+}
