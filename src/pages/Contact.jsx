@@ -12,9 +12,11 @@ export default function Contact(){
 
     const changeState = (event) =>{
         const {name, value} = event.target;
+        
         setData(
         {
-         ...data, [name]: value  //set the values. 
+        // ...data, [name]: value  //set the values. 
+        ...data, [name]: value
         }
     
        );
@@ -27,29 +29,52 @@ export default function Contact(){
 
     });
 
+
+    const [mouse, setMouse] = useState({
+         mouseNameError:false,
+         mouseEmailError: false,
+         mouseMessageError: false,
+
+    });
+
+    const mouseEnter= (formfieldIn) =>
+    {
+        setMouse(true);
+
+    };
+
+    const mouseLeave= (formfieldOut) =>
+    {
+        setMouse(false);
+    
+    };
+
     const handleSubmit =(event) =>{
         
         event.preventDefault();
+        console.log('state: ' + JSON.stringify(data));
         // logic
         let  isValid = true; //boolean flag.
 
-        if(data.name ==='')
+        if(data.name ===''||mouse.mouseNameError&&data.name ==='')
         { 
-            //isValid = false;
+            isValid = false;
             dataError.nameError = 'name is required';
             setDataError(dataError.nameError);
+            setMouse(mouse.mouseNameError);
             return '';
 
         }
         else{
-            setDataError('');
-        }
+           setDataError('');
+       }
 
-        if(data.email==='')
+        if(data.email===''||mouse.mouseEmailError&&data.email==='')
         {
-           // isValid = false;
+           isValid = false;
             dataError.emailError = 'email is required';
             setDataError(dataError.emailError);
+            setMouse(mouse.mouseEmailError);
             return '';
         }
         /*
@@ -60,26 +85,27 @@ export default function Contact(){
         \S+ one or non-whitespace the dot to match top level domain of email.
 
         */
-        else if(/\S+@\S+\.\S+/.test(data.email)) //test if email is valid.
+        if(/\S+@\S+\.\S+/.test(data.email)&&data.email!=='') //test if email is valid.
         {
-            //isValid = true;
-            setDataError('');
+           
+            isValid = true;
 
         }
         else
         {
-            //isValid = false;
+            isValid = false;
             dataError.emailError = 'invalid email';
             setDataError(dataError.emailError);
             return '';
         }
 
 
-        if(data.message==='')
+        if(data.message===''||mouse.mouseMessageError&&data.message==='')
         {
-            //isValid = false;
+            isValid = false;
             dataError.emailError = 'message is required';
             setDataError(dataError.emailError);
+            setMouse(mouse.mouseMessageError);
 
         }
 
@@ -104,8 +130,11 @@ export default function Contact(){
          <label htmlFor ="name">Name: </label>
          <input type ="text"
          id ="name" 
-         value = {React.data.name}
+         name ='name'
+        value = {data.name}
          onChange ={changeState}
+         onMouseEnter={mouseEnter}
+         onMouseLeave={mouseLeave}
          required
          /> 
          {dataError.nameError && (
@@ -116,7 +145,8 @@ export default function Contact(){
          <label htmlFor ="email">Email: </label>
          <input type ="text"
          id ="email" 
-         value = {React.data.email}
+         name ='email'
+         value = {data.email}
          onChange ={changeState}
          required
          />  
@@ -127,8 +157,9 @@ export default function Contact(){
         <div>
          <label htmlFor ="message">Message: </label>
          <textarea
-         id ="message" 
-         value = {React.data.message}
+         id ="message"
+         name ='message' 
+         value = {data.message}
          onChange ={changeState}
          required
          />

@@ -11,10 +11,10 @@ export default function About(){
         <div className="container pt-4"> 
             <h1>About Me</h1>
             <p>
-                <em>I enjoy learning new programming languages.<br>
-                I have some experience with SQL.</br>
-                Hobbies include playing strategy games.<br> 
-                Some times program embedded hardware.</br></em>
+                <em>I enjoy learning new programming languages.
+                I have some experience with SQL.
+                Hobbies include playing strategy games. 
+                Some times program embedded hardware.</em>
 
             </p>
         </div>
