@@ -15,11 +15,20 @@ export default function Contact(){
         
         setData(
         {
-        // ...data, [name]: value  //set the values. 
-        ...data, [name]: value
+        ...data, [name]: value  //set the values. 
         }
     
        );
+
+       setDataError((current) => ( 
+        { 
+             ...current,    //spread operator to copy the current state.
+             [`${name}Error`]: ''  //clear error message
+       }));
+
+
+
+
     };
 
     const [dataError, setDataError] = useState({
@@ -72,8 +81,13 @@ export default function Contact(){
         if(data.email===''||mouse.mouseEmailError&&data.email==='')
         {
            isValid = false;
-            dataError.emailError = 'email is required';
-            setDataError(dataError.emailError);
+           setDataError((currentDataErrorEmail) => ( 
+            { 
+                 ...currentDataErrorEmail,    //spread operator to copy the current state.
+                 emailError: ''  //set the error message. 
+           }));
+          
+    
             setMouse(mouse.mouseEmailError);
             return '';
         }
@@ -85,7 +99,9 @@ export default function Contact(){
         \S+ one or non-whitespace the dot to match top level domain of email.
 
         */
-        if(/\S+@\S+\.\S+/.test(data.email)&&data.email!=='') //test if email is valid.
+       const pattern = /\S+@\S+\.\S+/;
+       console.log("test regex: " + pattern.test(data.email));
+        if(pattern.test(data.email)===true&&data.email!=='') //test if email is valid.
         {
            
             isValid = true;
@@ -94,8 +110,20 @@ export default function Contact(){
         else
         {
             isValid = false;
-            dataError.emailError = 'invalid email';
-            setDataError(dataError.emailError);
+           //dataError.emailError = 'invalid email';
+            
+       setDataError((currentDataErrorEmail) => ( 
+        { 
+             ...currentDataErrorEmail,    //spread operator to copy the current state.
+             emailError: 'invalid email'  //set the error message. 
+       }));
+
+      
+
+
+            
+
+
             return '';
         }
 
